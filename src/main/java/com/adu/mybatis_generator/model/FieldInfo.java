@@ -1,10 +1,12 @@
-package com.qunar.mybatis.model;
+package com.adu.mybatis_generator.model;
 
 /**
- * java 对象属性模型
- * Created by ming.zhao on 2015/1/9.
+ * 表内的字段信息
+ * 
+ * @author yunjie.du
+ * @date 2017/1/17 18:14
  */
-public class PropertyModel {
+public class FieldInfo {
     /**
      * 表字段名称
      */

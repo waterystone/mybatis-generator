@@ -1,10 +1,12 @@
-package com.qunar.mybatis.model;
+package com.adu.mybatis_generator.model;
 
 /**
- * java 对象模型
- * Created by ming.zhao on 2015/1/9.
+ * 表信息
+ * 
+ * @author yunjie.du
+ * @date 2017/1/17 18:14
  */
-public class ClassModel {
+public class TableInfo {
     /**
      * 表名称
      */
@@ -25,6 +27,7 @@ public class ClassModel {
      * 类描述
      */
     private String desc;
+
     public String getTableName() {
         return tableName;
     }
