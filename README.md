@@ -1,7 +1,9 @@
+##概述
+    通过连接MySQL数据库表，直接生成表的Model.java、Mapper.java、Mapper.xml、Service.java、ServiceImpl.java，省去自己创建的繁琐工作。
 
 ##约定：
-    1.表要有自增的**long**型id，`id bigint(20) NOT NULL AUTO_INCREMENT`
-    2.表内字段尽量非空，`NOT NULL DEFAULT 0`
+    1.表要有自增的long型id，id bigint(20) NOT NULL AUTO_INCREMENT
+    2.表内字段尽量非空，NOT NULL DEFAULT 0
     
 ##使用方法如下：
 ```java
