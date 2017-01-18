@@ -21,8 +21,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adu.mybatis_generator.model.TableInfo;
 import com.adu.mybatis_generator.model.FieldInfo;
+import com.adu.mybatis_generator.model.MetaInfo;
+import com.adu.mybatis_generator.model.TableInfo;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -40,17 +41,19 @@ import freemarker.template.TemplateException;
  * @date 2017/1/17 18:14
  */
 public class GenerateService {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private MetaInfo metaInfo;
 
     private Connection connection;
     private static Map<String, String> dbTypeAndJavaTypeMap = Maps.newHashMap();// DB字段类型与Java类型的映射
     private static Map<String, String> templateNameMap = Maps.newHashMap();// 模板文件映射(key为模板文件名报缀，value为模板文件路径)
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public GenerateService(String driver, String url, String userName, String pwd) {
+    public GenerateService(String driver, String url, String userName, String pwd, MetaInfo metaInfo) {
         try {
             // 加载数据库连接
             Class.forName(driver);
             connection = DriverManager.getConnection(url, userName, pwd);
+            this.metaInfo = metaInfo;
         } catch (Exception e) {
             logger.error("[ERROR-getConnection]driver={},url={},userName={},pwd={}", driver, url, userName, pwd);
             throw new RuntimeException("ERROR-getConnection", e);
@@ -58,17 +61,27 @@ public class GenerateService {
     }
 
     static {
-        dbTypeAndJavaTypeMap.put("bigint", "Long");
         dbTypeAndJavaTypeMap.put("boolean", "Boolean");
         dbTypeAndJavaTypeMap.put("char", "String");
+        dbTypeAndJavaTypeMap.put("tinyint", "Integer");
+        dbTypeAndJavaTypeMap.put("smallint", "Integer");
+        dbTypeAndJavaTypeMap.put("mediumint", "Integer");
+        dbTypeAndJavaTypeMap.put("int", "Integer");
+        dbTypeAndJavaTypeMap.put("bigint", "Long");
+
+        dbTypeAndJavaTypeMap.put("float", "Float");
+        dbTypeAndJavaTypeMap.put("double", "Double");
+        dbTypeAndJavaTypeMap.put("decimal", "BigDecimal");
+
         dbTypeAndJavaTypeMap.put("varchar", "String");
+        dbTypeAndJavaTypeMap.put("tinytext", "String");
+        dbTypeAndJavaTypeMap.put("text", "String");
+        dbTypeAndJavaTypeMap.put("mediumtext", "String");
+        dbTypeAndJavaTypeMap.put("longtext", "String");
+
         dbTypeAndJavaTypeMap.put("datetime", "Date");
         dbTypeAndJavaTypeMap.put("timestamp", "Date");
         dbTypeAndJavaTypeMap.put("date", "Date");
-        dbTypeAndJavaTypeMap.put("int", "Integer");
-        dbTypeAndJavaTypeMap.put("smallint", "Integer");
-        dbTypeAndJavaTypeMap.put("tinyint", "Integer");
-        dbTypeAndJavaTypeMap.put("decimal", "BigDecimal");
 
         templateNameMap.put(".java", "ftl/Model.ftl");// model.java
         templateNameMap.put("Mapper.xml", "ftl/Mapper.ftl");// mapper.java
@@ -76,7 +89,7 @@ public class GenerateService {
     }
 
     /**
-     * 自动生成代码
+     * 自动生成代码（多表）
      *
      * @param dbName DB名
      * @param tableNames 要生成的表数组
@@ -104,19 +117,27 @@ public class GenerateService {
         logger.info("op=end_generateCode,dbName={},tableNames={},filePath={}", dbName, tableNames, dirPath);
     }
 
+    /**
+     * 自动生成代码（单表）
+     * 
+     * @param dirPath
+     * @param dbName
+     * @param tableName
+     * @throws Exception
+     */
     private void generateCode(String dirPath, String dbName, String tableName) throws Exception {
         Preconditions.checkArgument(StringUtils.isNotBlank(dirPath));
         Preconditions.checkArgument(StringUtils.isNotBlank(dbName));
         Preconditions.checkArgument(StringUtils.isNotBlank(tableName));
 
-        TableInfo classModel = getClassModel(dbName, tableName);// 获取表信息
-        List<FieldInfo> propertyModelList = getPropertyModel(dbName, tableName);// 获取表内各字段信息
+        TableInfo tableInfo = getTableInfo(dbName, tableName);// 获取表信息
+        List<FieldInfo> fieldInfoList = getFieldInfos(dbName, tableName);// 获取表内各字段信息
 
-        Map<String, Object> templateObject = buildTemplateData(classModel, propertyModelList);// 构建模板数据
+        Map<String, Object> templateObject = buildTemplateData(tableInfo, fieldInfoList);// 构建模板数据
 
         // 对每个模板，生成相应的文件
         for (Map.Entry<String, String> entry : templateNameMap.entrySet()) {
-            String fileName = dirPath + classModel.getUname() + entry.getKey();// 文件名
+            String fileName = dirPath + tableInfo.getUname() + entry.getKey();// 文件名
             generateTemplateContent(entry.getValue(), templateObject, fileName);
         }
     }
@@ -129,20 +150,20 @@ public class GenerateService {
      * @return
      * @throws Exception
      */
-    private TableInfo getClassModel(final String dbName, final String tableName) throws Exception {
+    private TableInfo getTableInfo(final String dbName, final String tableName) throws Exception {
         String sql = "SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  WHERE table_schema = ? AND table_name = ?";
         return new QueryRunner().query(connection, sql, new ResultSetHandler<TableInfo>() {
             public TableInfo handle(ResultSet rs) throws SQLException {
                 if (!rs.next()) {
                     return null;
                 }
-                TableInfo model = new TableInfo();
-                model.setTableName(tableName);
-                model.setSchema(dbName);
-                model.setLname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName));
-                model.setUname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName));
-                model.setDesc(rs.getString(1));
-                return model;
+                TableInfo tableInfo = new TableInfo();
+                tableInfo.setTableName(tableName);
+                tableInfo.setSchema(dbName);
+                tableInfo.setLname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName));
+                tableInfo.setUname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName));
+                tableInfo.setDesc(rs.getString(1));
+                return tableInfo;
             }
         }, dbName, tableName);
     }
@@ -155,20 +176,25 @@ public class GenerateService {
      * @return
      * @throws Exception
      */
-    private List<FieldInfo> getPropertyModel(String dbName, String tableName) throws Exception {
+    private List<FieldInfo> getFieldInfos(String dbName, String tableName) throws Exception {
         String sql = "SELECT COLUMN_NAME,DATA_TYPE,COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = ? AND table_name = ?";
         return new QueryRunner().query(connection, sql, new ResultSetHandler<List<FieldInfo>>() {
             public List<FieldInfo> handle(ResultSet rs) throws SQLException {
                 List<FieldInfo> propertyModels = Lists.newArrayList();
                 while (rs.next()) {
-                    FieldInfo model = new FieldInfo();
+                    FieldInfo fieldInfo = new FieldInfo();
                     String columnName = rs.getString(1);
-                    model.setColumnName(columnName);
-                    model.setLname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName));
-                    model.setUname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName));
-                    model.setType(dbTypeAndJavaTypeMap.get(rs.getString(2)));
-                    model.setDesc(rs.getString(3));
-                    propertyModels.add(model);
+                    fieldInfo.setColumnName(columnName);
+                    fieldInfo.setLname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName));
+                    fieldInfo.setUname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName));
+
+                    String dbType = rs.getString(2);
+                    if (!dbTypeAndJavaTypeMap.containsKey(dbType)) {
+                        throw new RuntimeException(String.format("DB类型[%s]没有对应的Java类型！！", dbType));
+                    }
+                    fieldInfo.setType(dbTypeAndJavaTypeMap.get(dbType));
+                    fieldInfo.setDesc(rs.getString(3));
+                    propertyModels.add(fieldInfo);
                 }
                 return propertyModels;
             }
@@ -178,14 +204,16 @@ public class GenerateService {
     /**
      * 构建模板数据
      * 
-     * @param classModel 表信息
-     * @param propertyModelList 表内各字段信息
+     * @param tableInfo 表信息
+     * @param fieldInfoList 表内各字段信息
      * @return
      */
-    private Map<String, Object> buildTemplateData(TableInfo classModel, List<FieldInfo> propertyModelList) {
+    private Map<String, Object> buildTemplateData(TableInfo tableInfo, List<FieldInfo> fieldInfoList) {
         Map<String, Object> res = Maps.newHashMap();// 模板数据
-        res.put("classModel", classModel);
-        res.put("propertyModelList", propertyModelList);
+        res.put("metaInfo", metaInfo);
+        res.put("tableInfo", tableInfo);
+        res.put("fieldInfoList", fieldInfoList);
+
         return res;
     }
 

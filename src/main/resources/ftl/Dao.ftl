@@ -2,49 +2,52 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ${classModel.desc!''} dao层操作接口
+ * ${tableInfo.desc!''} dao层操作接口
+ *
+ * @author ${metaInfo.author!''}
+ * @date ${metaInfo.date!''}
  */
-public interface ${classModel.uname!''}Dao {
+public interface ${tableInfo.uname!''}Mapper {
     /**
-     * 保存${classModel.desc!''}数据
+     * 保存${tableInfo.desc!''}数据
      *
-     * @param model
+     * @param ${tableInfo.lname!''}
      */
-    int save${classModel.uname!''}Model(${classModel.uname!''}Model model);
+    int save${tableInfo.uname!''}(${tableInfo.uname!''} ${tableInfo.lname!''});
 
     /**
-     * 批量保存${classModel.desc!''}数据
+     * 批量保存${tableInfo.desc!''}数据
      *
      * @param list
      */
-    void batchSave${classModel.uname!''}Models(List${r'<'}${classModel.uname!''}Model${r'>'} list);
+    void batchSave${tableInfo.uname!''}Models(List${r'<'}${tableInfo.uname!''}Model${r'>'} list);
 
     /**
-     * 删除${classModel.desc!''}数据
+     * 删除${tableInfo.desc!''}数据
      *
      * @param id 操作条数
      */
-    int delete${classModel.uname!''}ModelById(int id);
+    int delete${tableInfo.uname!''}ModelById(int id);
 
     /**
-     * 批量删除${classModel.desc!''}数据
+     * 批量删除${tableInfo.desc!''}数据
      *
      * @param list
      * @return int 操作条数
      */
-    int delete${classModel.uname!''}ModelByIds(List${r'<Integer>'} list);
+    int delete${tableInfo.uname!''}ModelByIds(List${r'<Integer>'} list);
 
     /**
-     * 更新${classModel.desc!''}数据
+     * 更新${tableInfo.desc!''}数据
      *
      * @param model
      */
-    int update${classModel.uname!''}ModelById(${classModel.uname!''}Model model);
+    int update${tableInfo.uname!''}ModelById(${tableInfo.uname!''}Model model);
 
     /**
-     * 根据id获取${classModel.desc!''}数据
+     * 根据id获取${tableInfo.desc!''}数据
      *
      * @param id
      */
-    ${classModel.uname!''}Model select${classModel.uname!''}ModelById(int id);
+    ${tableInfo.uname!''}Model select${tableInfo.uname!''}ModelById(int id);
 }
