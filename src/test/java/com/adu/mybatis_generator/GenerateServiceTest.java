@@ -18,9 +18,9 @@ public class GenerateServiceTest {
 
     @Test
     public void generateCode() {
-        String dbName = "adu";
-        String[] tables = { "user_info" };
-        String filePath = "D:/mybatis_generator";
+        String dbName = "adu";// DB名称
+        String[] tables = { "user_info" };// 要生成代码的表
+        String filePath = "D:/mybatis_generator";// 目标目录
         generateService.generateCode(dbName, tables, filePath);
     }
 
@@ -30,7 +30,7 @@ public class GenerateServiceTest {
         String url = "jdbc:mysql://10.86.42.140:3306";
         String userName = "adu_w";
         String password = "aduADU123aduADU7";
-        MetaInfo metaInfo = new MetaInfo("yunjie.du", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        MetaInfo metaInfo = new MetaInfo("yunjie.du", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));// 作者等信息
         generateService = new GenerateService(driver, url, userName, password, metaInfo);
     }
 }

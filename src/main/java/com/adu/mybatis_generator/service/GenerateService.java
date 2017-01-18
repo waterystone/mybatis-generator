@@ -61,16 +61,16 @@ public class GenerateService {
     }
 
     static {
-        dbTypeAndJavaTypeMap.put("boolean", "Boolean");
+        dbTypeAndJavaTypeMap.put("boolean", "boolean");
         dbTypeAndJavaTypeMap.put("char", "String");
-        dbTypeAndJavaTypeMap.put("tinyint", "Integer");
-        dbTypeAndJavaTypeMap.put("smallint", "Integer");
-        dbTypeAndJavaTypeMap.put("mediumint", "Integer");
-        dbTypeAndJavaTypeMap.put("int", "Integer");
-        dbTypeAndJavaTypeMap.put("bigint", "Long");
+        dbTypeAndJavaTypeMap.put("tinyint", "int");
+        dbTypeAndJavaTypeMap.put("smallint", "int");
+        dbTypeAndJavaTypeMap.put("mediumint", "int");
+        dbTypeAndJavaTypeMap.put("int", "int");
+        dbTypeAndJavaTypeMap.put("bigint", "long");
 
-        dbTypeAndJavaTypeMap.put("float", "Float");
-        dbTypeAndJavaTypeMap.put("double", "Double");
+        dbTypeAndJavaTypeMap.put("float", "float");
+        dbTypeAndJavaTypeMap.put("double", "double");
         dbTypeAndJavaTypeMap.put("decimal", "BigDecimal");
 
         dbTypeAndJavaTypeMap.put("varchar", "String");
@@ -86,6 +86,8 @@ public class GenerateService {
         templateNameMap.put(".java", "ftl/Model.ftl");// model.java
         templateNameMap.put("Mapper.xml", "ftl/Mapper.ftl");// mapper.java
         templateNameMap.put("Mapper.java", "ftl/Dao.ftl");// mapper.xml
+        templateNameMap.put("Service.java", "ftl/Service.ftl");// mapper.xml
+        templateNameMap.put("ServiceImpl.java", "ftl/ServiceImpl.ftl");// mapper.xml
     }
 
     /**
@@ -98,7 +100,6 @@ public class GenerateService {
     public void generateCode(String dbName, String[] tableNames, String dirPath) {
         logger.info("op=start_generateCode,dbName={},tableNames={},dirPath={}", dbName, tableNames, dirPath);
         try {
-            dirPath = getFileDirectory(dirPath);
             File file = new File(dirPath);
 
             if (!file.exists()) {
@@ -137,7 +138,7 @@ public class GenerateService {
 
         // 对每个模板，生成相应的文件
         for (Map.Entry<String, String> entry : templateNameMap.entrySet()) {
-            String fileName = dirPath + tableInfo.getUname() + entry.getKey();// 文件名
+            String fileName = dirPath + File.separator + tableInfo.getUname() + entry.getKey();// 文件名
             generateTemplateContent(entry.getValue(), templateObject, fileName);
         }
     }

@@ -1,30 +1,28 @@
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
 /**
- * ${tableInfo.desc!''} 相关操作Dao
+ * ${tableInfo.desc!''} 相关操作服务
  *
  * @author ${metaInfo.author!''}
  * @date ${metaInfo.date!''}
  */
-public interface ${tableInfo.uname!''}Mapper {
+public interface ${tableInfo.uname!''}Service {
     /**
     * 根据id查询
     *
     * @param id
     * @return
     */
-    ${tableInfo.uname!''} query${tableInfo.uname!''}ById(@Param("id") long id);
+    ${tableInfo.uname!''} get${tableInfo.uname!''}ById(long id);
 
     /**
     * 根据id批量查询
     *
     * @param idList
-    * @return
+    * @return key为ID。
     */
-    List<${tableInfo.uname!''}> query${tableInfo.uname!''}sByIds(List<Long> idList);
+    Map<Long, ${tableInfo.uname!''}> get${tableInfo.uname!''}sByIds(List<Long> idList);
 
     /**
     * 更新数据
@@ -48,7 +46,7 @@ public interface ${tableInfo.uname!''}Mapper {
      * @param ${tableInfo.lname!''}List
      * @return 保存条数
      */
-    int batchSave(List<${tableInfo.uname!''}> ${tableInfo.lname!''}List);
+    void batchSave(List<${tableInfo.uname!''}> ${tableInfo.lname!''}List);
 
     /**
      * 根据ID单条删除
@@ -56,7 +54,7 @@ public interface ${tableInfo.uname!''}Mapper {
      * @param id 要删除的记录ID
      * @return 删除条数
      */
-    int deleteById(@Param("id") long id);
+    int deleteById(long id);
 
     /**
      * 根据ID批量删除

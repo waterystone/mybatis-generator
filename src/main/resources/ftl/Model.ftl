@@ -11,11 +11,12 @@ public class ${tableInfo.uname!''} extends Stringfy {
 
     <#list fieldInfoList as fieldInfo>
     public ${fieldInfo.type!''} get${fieldInfo.uname!''}() {
-        return ${fieldInfo.lname!''};
+        return this.${fieldInfo.lname!''};
     }
 
     public void set${fieldInfo.uname!''}(${fieldInfo.type!''} ${fieldInfo.lname!''}) {
         this.${fieldInfo.lname!''} = ${fieldInfo.lname!''};
     }
+
     </#list>
 }
