@@ -1,21 +1,21 @@
 /**
- * ${tableInfo.desc!''}对应的model
+ * ${tableInfo.desc}对应的model
  *
- * @author ${metaInfo.author!''}
- * @date ${metaInfo.date!''}
+ * @author ${metaInfo.author}
+ * @date ${metaInfo.date}
  */
-public class ${tableInfo.uname!''} extends Stringfy {
+public class ${tableInfo.uname} extends Stringfy {
     <#list fieldInfoList as fieldInfo>
-    private ${fieldInfo.type!''} ${fieldInfo.lname!''};//${fieldInfo.desc!''}
+    private ${fieldInfo.type} ${fieldInfo.lname};//${fieldInfo.desc}
     </#list>
 
     <#list fieldInfoList as fieldInfo>
-    public ${fieldInfo.type!''} get${fieldInfo.uname!''}() {
-        return this.${fieldInfo.lname!''};
+    public ${fieldInfo.type} get${fieldInfo.uname}() {
+        return this.${fieldInfo.lname};
     }
 
-    public void set${fieldInfo.uname!''}(${fieldInfo.type!''} ${fieldInfo.lname!''}) {
-        this.${fieldInfo.lname!''} = ${fieldInfo.lname!''};
+    public void set${fieldInfo.uname}(${fieldInfo.type} ${fieldInfo.lname}) {
+        this.${fieldInfo.lname} = ${fieldInfo.lname};
     }
 
     </#list>

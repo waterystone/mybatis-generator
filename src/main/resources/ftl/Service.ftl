@@ -2,19 +2,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ${tableInfo.desc!''} 相关操作服务
+ * ${tableInfo.desc} 相关操作服务
  *
- * @author ${metaInfo.author!''}
- * @date ${metaInfo.date!''}
+ * @author ${metaInfo.author}
+ * @date ${metaInfo.date}
  */
-public interface ${tableInfo.uname!''}Service {
+public interface ${tableInfo.uname}Service {
     /**
     * 根据id查询
     *
     * @param id
     * @return
     */
-    ${tableInfo.uname!''} get${tableInfo.uname!''}ById(long id);
+    ${tableInfo.uname} get${tableInfo.uname}ById(long id);
 
     /**
     * 根据id批量查询
@@ -22,31 +22,31 @@ public interface ${tableInfo.uname!''}Service {
     * @param idList
     * @return key为ID。
     */
-    Map<Long, ${tableInfo.uname!''}> get${tableInfo.uname!''}sByIds(List<Long> idList);
+    Map<Long, ${tableInfo.uname}> get${tableInfo.uname}sByIds(List<Long> idList);
 
     /**
     * 更新数据
     *
-    * @param ${tableInfo.lname!''}
+    * @param ${tableInfo.lname}
     * @return 更新条数
     */
-    int updateById(${tableInfo.uname!''} ${tableInfo.lname!''});
+    int updateById(${tableInfo.uname} ${tableInfo.lname});
 
     /**
      * 保存单条数据
      *
-     * @param ${tableInfo.lname!''}
+     * @param ${tableInfo.lname}
      * @return 保存条数
      */
-    int save(${tableInfo.uname!''} ${tableInfo.lname!''});
+    int save(${tableInfo.uname} ${tableInfo.lname});
 
     /**
      * 批量保存
      *
-     * @param ${tableInfo.lname!''}List
+     * @param ${tableInfo.lname}List
      * @return 保存条数
      */
-    void batchSave(List<${tableInfo.uname!''}> ${tableInfo.lname!''}List);
+    void batchSave(List<${tableInfo.uname}> ${tableInfo.lname}List);
 
     /**
      * 根据ID单条删除

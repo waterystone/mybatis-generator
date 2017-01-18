@@ -3,21 +3,21 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
 ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     <sql id="selectFields" >
         <#list fieldInfoList as fieldInfo>
-        ${fieldInfo.columnName!''} AS ${fieldInfo.lname!''}<#if fieldInfo_has_next>,</#if>
+        ${fieldInfo.columnName} AS ${fieldInfo.lname}<#if fieldInfo_has_next>,</#if>
         </#list>
     </sql>
 
-    <select id="query${tableInfo.uname!''}ById" resultType="${tableInfo.uname!''}">
+    <select id="query${tableInfo.uname}ById" resultType="${tableInfo.uname}">
         SELECT
             <include refid="selectFields"/>
-        FROM ${tableInfo.schema!''}.${tableInfo.tableName!''}
+        FROM ${tableInfo.schema}.${tableInfo.tableName}
         WHERE id = ${r'#{id}'}
     </select>
 
-    <select id="query${tableInfo.uname!''}sByIds" resultType="${tableInfo.uname!''}">
+    <select id="query${tableInfo.uname}sByIds" resultType="${tableInfo.uname}">
         SELECT
             <include refid="selectFields"/>
-        FROM ${tableInfo.schema!''}.${tableInfo.tableName!''}
+        FROM ${tableInfo.schema}.${tableInfo.tableName}
         WHERE id IN
             <foreach collection="list" open="(" close=")" item="item"  separator=",">
                 ${r'#{item}'}
@@ -25,43 +25,43 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     </select>
 
     <update id="updateById" resultType="int">
-        UPDATE ${tableInfo.schema!''}.${tableInfo.tableName!''}
+        UPDATE ${tableInfo.schema}.${tableInfo.tableName}
         SET
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.columnName == "id">
             <#else>
-            ${fieldInfo.columnName!''} = ${r'#{'}${fieldInfo.lname!''}${r'}'}<#if fieldInfo_has_next>,</#if>
+            ${fieldInfo.columnName} = ${r'#{'}${fieldInfo.lname}${r'}'}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
         WHERE id = ${r'#{id}'}
     </update>
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id"  resultType="int">
-        INSERT INTO ${tableInfo.schema!''}.${tableInfo.tableName!''}
+        INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.columnName == "id">
             <#else>
-            ${fieldInfo.columnName!''}<#if fieldInfo_has_next>,</#if>
+            ${fieldInfo.columnName}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
         )VALUES(
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.lname == "id">
             <#else>
-            ${r'#{'}${fieldInfo.lname!''}${r'}'}<#if fieldInfo_has_next>,</#if>
+            ${r'#{'}${fieldInfo.lname}${r'}'}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
         )
     </insert>
 
     <insert id="batchSave" parameterType="java.util.List"  resultType="int">
-        INSERT INTO ${tableInfo.schema!''}.${tableInfo.tableName!''}
+        INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.columnName == "id">
             <#else>
-            ${fieldInfo.columnName!''}<#if fieldInfo_has_next>,</#if>
+            ${fieldInfo.columnName}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
         )VALUES
@@ -70,7 +70,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.lname == "id">
             <#else>
-            ${r'#{item.'}${fieldInfo.lname!''}${r'}'}<#if fieldInfo_has_next>,</#if>
+            ${r'#{item.'}${fieldInfo.lname}${r'}'}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
         )
@@ -78,11 +78,11 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     </insert>
 
     <delete id="deleteById"  resultType="int">
-        DELETE FROM ${tableInfo.schema!''}.${tableInfo.tableName!''} WHERE id = ${r'#{id}'}
+        DELETE FROM ${tableInfo.schema}.${tableInfo.tableName} WHERE id = ${r'#{id}'}
     </delete>
 
     <delete id="deleteByIds" parameterType="java.util.List" resultType="int">
-        DELETE FROM ${tableInfo.schema!''}.${tableInfo.tableName!''}
+        DELETE FROM ${tableInfo.schema}.${tableInfo.tableName}
         WHERE id IN
             <foreach collection="list" open="(" close=")" item="item"  separator=",">
                 ${r'#{item}'}
