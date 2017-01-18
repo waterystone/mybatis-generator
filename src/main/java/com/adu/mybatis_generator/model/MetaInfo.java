@@ -2,6 +2,8 @@ package com.adu.mybatis_generator.model;
 
 import com.adu.mybatis_generator.util.Stringfy;
 
+import java.util.Date;
+
 /**
  * 无数据信息
  * 
@@ -10,9 +12,9 @@ import com.adu.mybatis_generator.util.Stringfy;
  */
 public class MetaInfo extends Stringfy {
     private String author;// 作者
-    private String date;// 生成日期
+    private Date date;// 生成日期
 
-    public MetaInfo(String author, String date) {
+    public MetaInfo(String author, Date date) {
         this.author = author;
         this.date = date;
     }
@@ -25,11 +27,11 @@ public class MetaInfo extends Stringfy {
         this.author = author;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

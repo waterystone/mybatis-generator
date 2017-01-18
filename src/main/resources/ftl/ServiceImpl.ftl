@@ -13,7 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 /**
  *
  * @author ${metaInfo.author}
- * @date ${metaInfo.date}
+ * @date ${metaInfo.date?string("yyyy-MM-dd HH:mm:ss")}
  */
 @Service
 public class ${tableInfo.uname}ServiceImpl implements ${tableInfo.uname}Service {

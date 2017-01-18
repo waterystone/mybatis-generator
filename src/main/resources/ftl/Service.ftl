@@ -5,7 +5,7 @@ import java.util.Map;
  * ${tableInfo.desc} 相关操作服务
  *
  * @author ${metaInfo.author}
- * @date ${metaInfo.date}
+ * @date ${metaInfo.date?string("yyyy-MM-dd HH:mm:ss")}
  */
 public interface ${tableInfo.uname}Service {
     /**

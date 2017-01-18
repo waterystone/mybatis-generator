@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
  * ${tableInfo.desc} 相关操作Dao
  *
  * @author ${metaInfo.author}
- * @date ${metaInfo.date}
+ * @date ${metaInfo.date?string("yyyy-MM-dd HH:mm:ss")}
  */
 public interface ${tableInfo.uname}Mapper {
     /**

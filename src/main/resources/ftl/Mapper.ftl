@@ -3,7 +3,7 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
 ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     <sql id="selectFields" >
         <#list fieldInfoList as fieldInfo>
-        ${fieldInfo.columnName} AS ${fieldInfo.lname}<#if fieldInfo_has_next>,</#if>
+        ${fieldInfo.columnName} AS ${fieldInfo.lname}<#sep>, </#sep>
         </#list>
     </sql>
 
@@ -28,8 +28,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         UPDATE ${tableInfo.schema}.${tableInfo.tableName}
         SET
         <#list fieldInfoList as fieldInfo>
-            <#if fieldInfo.columnName == "id">
-            <#else>
+            <#if fieldInfo.columnName != "id">
             ${fieldInfo.columnName} = ${r'#{'}${fieldInfo.lname}${r'}'}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
@@ -40,15 +39,13 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
-            <#if fieldInfo.columnName == "id">
-            <#else>
+            <#if fieldInfo.columnName != "id">
             ${fieldInfo.columnName}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
         )VALUES(
         <#list fieldInfoList as fieldInfo>
-            <#if fieldInfo.lname == "id">
-            <#else>
+            <#if fieldInfo.lname != "id">
             ${r'#{'}${fieldInfo.lname}${r'}'}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
@@ -59,8 +56,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
-            <#if fieldInfo.columnName == "id">
-            <#else>
+            <#if fieldInfo.columnName != "id">
             ${fieldInfo.columnName}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>
@@ -68,8 +64,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         <foreach collection="list" item="item"  separator=",">
         (
         <#list fieldInfoList as fieldInfo>
-            <#if fieldInfo.lname == "id">
-            <#else>
+            <#if fieldInfo.lname != "id">
             ${r'#{item.'}${fieldInfo.lname}${r'}'}<#if fieldInfo_has_next>,</#if>
             </#if>
         </#list>

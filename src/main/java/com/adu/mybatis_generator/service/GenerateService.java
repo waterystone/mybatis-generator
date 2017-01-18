@@ -186,8 +186,8 @@ public class GenerateService {
                     FieldInfo fieldInfo = new FieldInfo();
                     String columnName = rs.getString(1);
                     fieldInfo.setColumnName(columnName);
-                    fieldInfo.setLname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName));
-                    fieldInfo.setUname(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName));
+                    fieldInfo.setLname(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName));
+                    fieldInfo.setUname(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName));
 
                     String dbType = rs.getString(2);
                     if (!dbTypeAndJavaTypeMap.containsKey(dbType)) {

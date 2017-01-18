@@ -2,7 +2,6 @@ package com.adu.mybatis_generator;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +29,7 @@ public class GenerateServiceTest {
         String url = "jdbc:mysql://10.86.42.140:3306";
         String userName = "adu_w";
         String password = "aduADU123aduADU7";
-        MetaInfo metaInfo = new MetaInfo("yunjie.du", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));// 作者等信息
+        MetaInfo metaInfo = new MetaInfo("yunjie.du", new Date());// 作者等信息
         generateService = new GenerateService(driver, url, userName, password, metaInfo);
     }
 }

@@ -2,7 +2,7 @@
  * ${tableInfo.desc}对应的model
  *
  * @author ${metaInfo.author}
- * @date ${metaInfo.date}
+ * @date ${metaInfo.date?string("yyyy-MM-dd HH:mm:ss")}
  */
 public class ${tableInfo.uname} extends Stringfy {
     <#list fieldInfoList as fieldInfo>
