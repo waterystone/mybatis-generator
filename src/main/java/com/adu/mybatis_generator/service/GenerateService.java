@@ -108,6 +108,7 @@ public class GenerateService {
 
             for (String tableName : tableNames) {
                 generateCode(dirPath, dbName, tableName);
+                logger.info("op=end_generateTableCode,tableName={}",tableName);
             }
         } catch (Exception e) {
             logger.error("[ERROR-generateCode]", e);
