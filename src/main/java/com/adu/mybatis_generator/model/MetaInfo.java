@@ -5,7 +5,7 @@ import com.adu.mybatis_generator.util.Stringfy;
 import java.util.Date;
 
 /**
- * 无数据信息
+ * 元数据信息
  * 
  * @author yunjie.du
  * @date 2017/1/18 10:37

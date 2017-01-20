@@ -108,7 +108,7 @@ public class GenerateService {
 
             for (String tableName : tableNames) {
                 generateCode(dirPath, dbName, tableName);
-                logger.info("op=end_generateTableCode,tableName={}",tableName);
+                logger.info("op=end_generateTableCode,tableName={}", tableName);
             }
         } catch (Exception e) {
             logger.error("[ERROR-generateCode]", e);
@@ -246,19 +246,6 @@ public class GenerateService {
         template.process(templateObject, writer);
 
         IOUtils.closeQuietly(writer);
-    }
-
-    /**
-     * 目录尾加上/
-     * 
-     * @param filePath
-     * @return
-     */
-    private String getFileDirectory(String filePath) {
-        if (StringUtils.endsWith(filePath, File.separator)) {
-            return filePath;
-        }
-        return filePath + File.separator;
     }
 
 }

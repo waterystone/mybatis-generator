@@ -1,12 +1,14 @@
 package com.adu.mybatis_generator.model;
 
+import com.adu.mybatis_generator.util.Stringfy;
+
 /**
  * 表内的字段信息
  * 
  * @author yunjie.du
  * @date 2017/1/17 18:14
  */
-public class FieldInfo {
+public class FieldInfo extends Stringfy {
     /**
      * 表字段名称
      */
