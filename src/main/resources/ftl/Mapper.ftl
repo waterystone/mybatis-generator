@@ -35,7 +35,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         WHERE id = ${r'#{id}'}
     </update>
 
-    <insert id="save" useGeneratedKeys="true" keyProperty="id"  resultType="int">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" resultType="int">
         INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
