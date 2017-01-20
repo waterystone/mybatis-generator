@@ -179,7 +179,7 @@ public class GenerateService {
      * @throws Exception
      */
     private List<FieldInfo> getFieldInfos(String dbName, String tableName) throws Exception {
-        String sql = "SELECT COLUMN_NAME,DATA_TYPE,COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = ? AND table_name = ?";
+        String sql = "SELECT COLUMN_NAME,DATA_TYPE,COLUMN_DEFAULT,COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = ? AND table_name = ?";
         return new QueryRunner().query(connection, sql, new ResultSetHandler<List<FieldInfo>>() {
             public List<FieldInfo> handle(ResultSet rs) throws SQLException {
                 List<FieldInfo> propertyModels = Lists.newArrayList();
@@ -195,7 +195,9 @@ public class GenerateService {
                         throw new RuntimeException(String.format("DB类型[%s]没有对应的Java类型！！", dbType));
                     }
                     fieldInfo.setType(dbTypeAndJavaTypeMap.get(dbType));
-                    fieldInfo.setDesc(rs.getString(3));
+
+                    fieldInfo.setDefaultValue(rs.getString(3));
+                    fieldInfo.setDesc(rs.getString(4));
                     propertyModels.add(fieldInfo);
                 }
                 return propertyModels;

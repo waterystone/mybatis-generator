@@ -19,6 +19,11 @@ public class FieldInfo {
      * 属性类型
      */
     private String type;
+
+    /**
+     * 默认值
+     */
+    private String defaultValue;
     /**
      * 属性描述
      */
@@ -50,6 +55,14 @@ public class FieldInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     public String getDesc() {
