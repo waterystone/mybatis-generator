@@ -1,20 +1,24 @@
 ${r'<?xml version="1.0" encoding="UTF-8"?>'}
 ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">'}
 ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
+    <resultMap id="${tableInfo.lname}ResultMap" type="${tableInfo.uname}">
+    <#list fieldInfoList as fieldInfo>
+        <result column="${fieldInfo.columnName}" property="${fieldInfo.lname}" />
+    </#list>
+    </resultMap>
+
     <sql id="selectFields" >
-        <#list fieldInfoList as fieldInfo>
-        ${fieldInfo.columnName} AS ${fieldInfo.lname}<#sep>, </#sep>
-        </#list>
+        <#list fieldInfoList as fieldInfo>${fieldInfo.columnName}<#sep>, </#sep></#list>
     </sql>
 
-    <select id="query${tableInfo.uname}ById" resultType="${tableInfo.uname}">
+    <select id="query${tableInfo.uname}ById" resultMap="${tableInfo.lname}ResultMap">
         SELECT
             <include refid="selectFields"/>
         FROM ${tableInfo.schema}.${tableInfo.tableName}
         WHERE id = ${r'#{id}'}
     </select>
 
-    <select id="query${tableInfo.uname}sByIds" resultType="${tableInfo.uname}">
+    <select id="query${tableInfo.uname}sByIds" resultMap="${tableInfo.lname}ResultMap">
         SELECT
             <include refid="selectFields"/>
         FROM ${tableInfo.schema}.${tableInfo.tableName}
@@ -24,7 +28,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
             </foreach>'
     </select>
 
-    <update id="updateById" resultType="int">
+    <update id="updateById">
         UPDATE ${tableInfo.schema}.${tableInfo.tableName}
         SET
         <#list fieldInfoList as fieldInfo>
@@ -35,7 +39,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         WHERE id = ${r'#{id}'}
     </update>
 
-    <insert id="save" useGeneratedKeys="true" keyProperty="id" resultType="int">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
@@ -52,7 +56,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         )
     </insert>
 
-    <insert id="batchSave" parameterType="java.util.List"  resultType="int">
+    <insert id="batchSave" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
@@ -72,11 +76,11 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
         </foreach>
     </insert>
 
-    <delete id="deleteById"  resultType="int">
+    <delete id="deleteById">
         DELETE FROM ${tableInfo.schema}.${tableInfo.tableName} WHERE id = ${r'#{id}'}
     </delete>
 
-    <delete id="deleteByIds" parameterType="java.util.List" resultType="int">
+    <delete id="deleteByIds">
         DELETE FROM ${tableInfo.schema}.${tableInfo.tableName}
         WHERE id IN
             <foreach collection="list" open="(" close=")" item="item"  separator=",">
