@@ -3,7 +3,7 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
 ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     <resultMap id="${tableInfo.lname}ResultMap" type="${tableInfo.uname}">
     <#list fieldInfoList as fieldInfo>
-        <result column="${fieldInfo.columnName}" property="${fieldInfo.lname}" />
+        <<#if fieldInfo.columnName == "id">id<#else>result</#if> column="${fieldInfo.columnName}" property="${fieldInfo.lname}" />
     </#list>
     </resultMap>
 
@@ -83,7 +83,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     <delete id="deleteByIds">
         DELETE FROM ${tableInfo.schema}.${tableInfo.tableName}
         WHERE id IN
-            <foreach collection="list" open="(" close=")" item="item"  separator=",">
+            <foreach collection="list" open="(" close=")" item="item" separator=",">
                 ${r'#{item}'}
             </foreach>
     </delete>
