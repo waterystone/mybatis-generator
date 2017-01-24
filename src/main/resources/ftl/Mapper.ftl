@@ -1,7 +1,7 @@
 ${r'<?xml version="1.0" encoding="UTF-8"?>'}
 ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">'}
 ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
-    <resultMap id="${tableInfo.lname}ResultMap" type="${tableInfo.uname}">
+    <resultMap id="${tableInfo.lname}ResultMap" type="TODO:model的完全限定名${tableInfo.uname}">
     <#list fieldInfoList as fieldInfo>
         <<#if fieldInfo.columnName == "id">id<#else>result</#if> column="${fieldInfo.columnName}" property="${fieldInfo.lname}"/>
     </#list>
