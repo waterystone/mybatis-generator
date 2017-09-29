@@ -1,12 +1,11 @@
 package com.adu.mybatis_generator;
 
-import java.util.Date;
-
+import com.adu.mybatis_generator.model.MetaInfo;
+import com.adu.mybatis_generator.service.GenerateService;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.adu.mybatis_generator.model.MetaInfo;
-import com.adu.mybatis_generator.service.GenerateService;
+import java.util.Date;
 
 /**
  * @author yunjie.du
@@ -17,9 +16,9 @@ public class GenerateServiceTest {
 
     @Test
     public void generateCode() {
-        String dbName = "adu";// DB名称
-        String[] tables = { "user_info" };// 要生成代码的表
-        String filePath = "D:/mybatis_generator";// 目标目录
+        String dbName = "gaoyang";// DB名称
+        String[] tables = {"parent_task", "parent_task_seq", "task", "task_op", "task_project", "task_project_owner", "task_submit", "task_submit_result"};// 要生成代码的表
+        String filePath = "/Users/yunjie.du/mybatis_generator";// 目标目录
         generateService.generateCode(dbName, tables, filePath);
     }
 
