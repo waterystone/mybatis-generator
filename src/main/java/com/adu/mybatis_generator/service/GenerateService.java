@@ -1,5 +1,25 @@
 package com.adu.mybatis_generator.service;
 
+import com.adu.mybatis_generator.model.FieldInfo;
+import com.adu.mybatis_generator.model.MetaInfo;
+import com.adu.mybatis_generator.model.TableInfo;
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,31 +32,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.dbutils.DbUtils;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.adu.mybatis_generator.model.FieldInfo;
-import com.adu.mybatis_generator.model.MetaInfo;
-import com.adu.mybatis_generator.model.TableInfo;
-import com.google.common.base.CaseFormat;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-
 /**
  * 代码生成服务
- * 
+ *
  * @author yunjie.du
  * @date 2017/1/17 18:14
  */
@@ -93,9 +91,9 @@ public class GenerateService {
     /**
      * 自动生成代码（多表）
      *
-     * @param dbName DB名
+     * @param dbName     DB名
      * @param tableNames 要生成的表数组
-     * @param dirPath 目标目录
+     * @param dirPath    目标目录
      */
     public void generateCode(String dbName, String[] tableNames, String dirPath) {
         logger.info("op=start_generateCode,dbName={},tableNames={},dirPath={}", dbName, tableNames, dirPath);
@@ -121,7 +119,7 @@ public class GenerateService {
 
     /**
      * 自动生成代码（单表）
-     * 
+     *
      * @param dirPath
      * @param dbName
      * @param tableName
@@ -172,7 +170,7 @@ public class GenerateService {
 
     /**
      * 获取表各字段的属性信息
-     * 
+     *
      * @param dbName
      * @param tableName
      * @return
@@ -191,10 +189,7 @@ public class GenerateService {
                     fieldInfo.setUname(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName));
 
                     String dbType = rs.getString(2);
-                    if (!dbTypeAndJavaTypeMap.containsKey(dbType)) {
-                        throw new RuntimeException(String.format("DB类型[%s]没有对应的Java类型！！", dbType));
-                    }
-                    fieldInfo.setType(dbTypeAndJavaTypeMap.get(dbType));
+                    fieldInfo.setType(dbTypeAndJavaTypeMap.getOrDefault(dbType, "String"));
 
                     fieldInfo.setDefaultValue(rs.getString(3));
                     fieldInfo.setDesc(rs.getString(4));
@@ -207,8 +202,8 @@ public class GenerateService {
 
     /**
      * 构建模板数据
-     * 
-     * @param tableInfo 表信息
+     *
+     * @param tableInfo     表信息
      * @param fieldInfoList 表内各字段信息
      * @return
      */
@@ -223,10 +218,10 @@ public class GenerateService {
 
     /**
      * 模板生成文件
-     * 
-     * @param templateName 模板名
+     *
+     * @param templateName   模板名
      * @param templateObject 模板数据
-     * @param fileName 目标文件名
+     * @param fileName       目标文件名
      * @throws IOException
      * @throws TemplateException
      */
