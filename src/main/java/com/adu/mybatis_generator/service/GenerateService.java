@@ -84,8 +84,8 @@ public class GenerateService {
         templateNameMap.put(".java", "ftl/Model.ftl");// model.java
         templateNameMap.put("Mapper.xml", "ftl/Mapper.ftl");// mapper.java
         templateNameMap.put("Mapper.java", "ftl/Dao.ftl");// mapper.xml
-        templateNameMap.put("Service.java", "ftl/Service.ftl");// mapper.xml
-        templateNameMap.put("ServiceImpl.java", "ftl/ServiceImpl.ftl");// mapper.xml
+        templateNameMap.put("Service.java", "ftl/Service.ftl");// sevice.java
+        templateNameMap.put("ServiceImpl.java", "ftl/ServiceImpl.ftl");// serviceImpl.java
     }
 
     /**
