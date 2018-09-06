@@ -14,14 +14,14 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     <select id="query${tableInfo.uname}ById" resultMap="${tableInfo.lname}ResultMap">
         SELECT
             <include refid="selectFields"/>
-        FROM ${tableInfo.schema}.${tableInfo.tableName}
+        FROM ${tableInfo.tableName}
         WHERE id = ${r'#{id}'}
     </select>
 
     <select id="query${tableInfo.uname}sByIds" resultMap="${tableInfo.lname}ResultMap">
         SELECT
             <include refid="selectFields"/>
-        FROM ${tableInfo.schema}.${tableInfo.tableName}
+        FROM ${tableInfo.tableName}
         WHERE id IN
             <foreach collection="list" open="(" close=")" item="item" separator=",">
                 ${r'#{item}'}
@@ -29,7 +29,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     </select>
 
     <update id="updateById">
-        UPDATE ${tableInfo.schema}.${tableInfo.tableName}
+        UPDATE ${tableInfo.tableName}
         SET
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.columnName != "id">
@@ -40,7 +40,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     </update>
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
+        INSERT INTO ${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.columnName != "id">
@@ -57,7 +57,7 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     </insert>
 
     <insert id="batchSave" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO ${tableInfo.schema}.${tableInfo.tableName}
+        INSERT INTO ${tableInfo.tableName}
         (
         <#list fieldInfoList as fieldInfo>
             <#if fieldInfo.columnName != "id">
@@ -77,11 +77,11 @@ ${r'<mapper namespace="TODO:需要替换成dao的完全限定名">'}
     </insert>
 
     <delete id="deleteById">
-        DELETE FROM ${tableInfo.schema}.${tableInfo.tableName} WHERE id = ${r'#{id}'}
+        DELETE FROM ${tableInfo.tableName} WHERE id = ${r'#{id}'}
     </delete>
 
     <delete id="deleteByIds">
-        DELETE FROM ${tableInfo.schema}.${tableInfo.tableName}
+        DELETE FROM ${tableInfo.tableName}
         WHERE id IN
             <foreach collection="list" open="(" close=")" item="item" separator=",">
                 ${r'#{item}'}

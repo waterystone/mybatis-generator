@@ -16,8 +16,8 @@ public class GenerateServiceTest {
 
     @Test
     public void generateCode() {
-        String dbName = "gaoyang";// DB名称
-        String[] tables = {"parent_task", "parent_task_seq", "task", "task_op", "task_project", "task_project_owner", "task_submit", "task_submit_result"};// 要生成代码的表
+        String dbName = "srvmgr";// DB名称
+        String[] tables = {"t_nodeext"};// 要生成代码的表
         String filePath = "/Users/yunjie.du/mybatis_generator";// 目标目录
         generateService.generateCode(dbName, tables, filePath);
     }
@@ -25,10 +25,10 @@ public class GenerateServiceTest {
     @Before
     public void init() {
         String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://10.86.42.140:3306";
-        String userName = "adu_w";
-        String password = "aduADU123aduADU7";
-        MetaInfo metaInfo = new MetaInfo("yunjie.du", new Date());// 作者等信息
+        String url = "jdbc:mysql://10.9.19.205:3306";
+        String userName = "srvmgr_rw";
+        String password = "123456";
+        MetaInfo metaInfo = new MetaInfo("duyunjie", new Date());// 作者等信息
         generateService = new GenerateService(driver, url, userName, password, metaInfo);
     }
 }
