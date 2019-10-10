@@ -17,7 +17,7 @@ public class GenerateServiceTest {
     @Test
     public void generateCode() {
         String dbName = "srvmgr";// DB名称
-        String[] tables = {"t_nodeext"};// 要生成代码的表
+        String[] tables = {"t_calleruseageext"};// 要生成代码的表
         String filePath = "/Users/yunjie.du/mybatis_generator";// 目标目录
         generateService.generateCode(dbName, tables, filePath);
     }
